@@ -234,6 +234,10 @@ app.get("/recipes/pantry", async (req,res)=>{
       "SELECT name FROM pantry_items"
     );
 
+      if(items.rows.length === 0){
+          return res.json([]);
+      }
+
     const names = items.rows.map(r =>
   r.name.toLowerCase().replace(/[^a-z ]/g,"")
 );
@@ -308,5 +312,6 @@ res.json([
 ]);
 
 });
+
 
 
