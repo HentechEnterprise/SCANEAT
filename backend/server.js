@@ -191,3 +191,27 @@ app.post("/recipes/custom", async (req, res) => {
   }
 
 });
+
+app.get("/recipes/custom/:item", async (req, res) => {
+
+  const item = req.params.item;
+
+  try {
+
+    const result = await pool.query(
+      "SELECT recipe FROM custom_recipes WHERE item=$1",
+      [item]
+    );
+
+    const recipes = result.rows.map(r => r.recipe);
+
+    res.json(recipes);
+
+  } catch(err) {
+
+    console.error(err);
+    res.status(500).json({ error:"Failed to load recipes" });
+
+  }
+
+});
