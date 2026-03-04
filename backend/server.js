@@ -258,7 +258,9 @@ app.get("/recipes/pantry", async (req,res)=>{
       "SELECT name FROM pantry_items"
     );
 
-    const names = items.rows.map(r=>r.name.toLowerCase());
+    const names = items.rows.map(r =>
+  r.name.toLowerCase().replace(/[^a-z ]/g,"")
+);
 
     let suggestions=[];
 
@@ -304,5 +306,6 @@ if(has("milk") && has("banana"))
   }
 
 });
+
 
 
