@@ -252,6 +252,10 @@ app.get("/recipes/pantry", async (req,res)=>{
       !n.includes("cleaner")
     );
 
+      if(filtered.length === 0){
+          return res.json([]);
+      }
+
     const has = (ingredient) =>
       filtered.some(n => n.includes(ingredient));
 
@@ -331,6 +335,7 @@ res.json([
 ]);
 
 });
+
 
 
 
