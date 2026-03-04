@@ -242,10 +242,17 @@ app.get("/recipes/pantry", async (req,res)=>{
   r.name.toLowerCase().replace(/[^a-z ]/g,"")
 );
 
+       const filtered = names.filter(n =>
+  !n.includes("water") &&
+  !n.includes("soap") &&
+  !n.includes("detergent") &&
+  !n.includes("cleaner")
+);
+
     let suggestions=[];
 
     const has = (ingredient) =>
-      names.some(n => n.includes(ingredient));
+  filtered.some(n => n.includes(ingredient));
 
     if(has("egg"))
       suggestions.push("Omelette");
@@ -312,6 +319,7 @@ res.json([
 ]);
 
 });
+
 
 
 
