@@ -249,3 +249,45 @@ app.delete("/recipes/custom/:item/:recipe", async (req, res) => {
   }
 
 });
+
+app.get("/recipes/pantry", async (req,res)=>{
+
+  try{
+
+    const items = await pool.query(
+      "SELECT name FROM pantry_items"
+    );
+
+    const names = items.rows.map(r=>r.name.toLowerCase());
+
+    let suggestions=[];
+
+    if(names.includes("egg"))
+      suggestions.push("Omelette");
+
+    if(names.includes("egg") && names.includes("bread"))
+      suggestions.push("Egg sandwich");
+
+    if(names.includes("tomato") && names.includes("onion"))
+      suggestions.push("Fresh salsa");
+
+    if(names.includes("chicken"))
+      suggestions.push("Grilled chicken bowl");
+
+    if(names.includes("rice") && names.includes("egg"))
+      suggestions.push("Egg fried rice");
+
+    if(suggestions.length===0)
+      suggestions.push("Simple healthy bowl");
+
+    res.json(suggestions);
+
+  }catch(err){
+
+    console.error(err);
+    res.status(500).json({error:"Failed to generate recipes"});
+
+  }
+
+});
+
