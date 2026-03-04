@@ -262,20 +262,34 @@ app.get("/recipes/pantry", async (req,res)=>{
 
     let suggestions=[];
 
-    if(names.includes("egg"))
+    const has = (ingredient) =>
+      names.some(n => n.includes(ingredient));
+
+    if(has("egg"))
       suggestions.push("Omelette");
 
-    if(names.includes("egg") && names.includes("bread"))
+    if(has("egg") && has("bread"))
       suggestions.push("Egg sandwich");
 
-    if(names.includes("tomato") && names.includes("onion"))
+    if(has("tomato") && has("onion"))
       suggestions.push("Fresh salsa");
 
-    if(names.includes("chicken"))
+    if(has("chicken"))
       suggestions.push("Grilled chicken bowl");
 
-    if(names.includes("rice") && names.includes("egg"))
+    if(has("rice") && has("egg"))
       suggestions.push("Egg fried rice");
+
+    if(has("milk"))
+      suggestions.push("Milk pancakes");
+      if(has("egg") && has("milk") && has("bread"))
+  suggestions.push("French toast");
+
+if(has("rice") && has("chicken"))
+  suggestions.push("Chicken fried rice");
+
+if(has("milk") && has("banana"))
+  suggestions.push("Banana smoothie");
 
     if(suggestions.length===0)
       suggestions.push("Simple healthy bowl");
@@ -290,4 +304,5 @@ app.get("/recipes/pantry", async (req,res)=>{
   }
 
 });
+
 
