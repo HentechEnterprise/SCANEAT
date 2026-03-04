@@ -100,4 +100,25 @@ initDb().then(()=>{
         console.log("Server running on port",PORT)
     })
 
+
 })
+
+app.delete("/pantry", async (req, res) => {
+
+  try {
+
+    await db.query("DELETE FROM pantry_items");
+
+    res.json({
+      success: true,
+      message: "Pantry cleared"
+    });
+
+  } catch (err) {
+
+    console.log(err);
+    res.status(500).json({ error: "Failed to clear pantry" });
+
+  }
+
+});
