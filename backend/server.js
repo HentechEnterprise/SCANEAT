@@ -148,28 +148,39 @@ res.json([
 
 });
 
-app.delete("/pantry/:id", async (req, res) => {
+app.delete("/pantry/:id", async (req,res)=>{
 
   const id = req.params.id;
 
   try {
+
+    const item = await pool.query(
+      "SELECT name FROM pantry_items WHERE id=$1",
+      [id]
+    );
+
+    const name = item.rows[0].name;
 
     await pool.query(
       "DELETE FROM pantry_items WHERE id=$1",
       [id]
     );
 
+    await pool.query(
+      "DELETE FROM custom_recipes WHERE item=$1",
+      [name]
+    );
+
     res.json({ success:true });
 
-  } catch (err) {
+  } catch(err){
 
     console.error(err);
-    res.status(500).json({ error:"Failed to delete item" });
+    res.status(500).json({ error:"Delete failed" });
 
   }
 
 });
-
 app.post("/recipes/custom", async (req, res) => {
 
   const { item, recipe } = req.body;
@@ -211,6 +222,29 @@ app.get("/recipes/custom/:item", async (req, res) => {
 
     console.error(err);
     res.status(500).json({ error:"Failed to load recipes" });
+
+  }
+
+});
+
+app.delete("/recipes/custom/:item/:recipe", async (req, res) => {
+
+  const item = req.params.item;
+  const recipe = req.params.recipe;
+
+  try {
+
+    await pool.query(
+      "DELETE FROM custom_recipes WHERE item=$1 AND recipe=$2",
+      [item, recipe]
+    );
+
+    res.json({ success:true });
+
+  } catch(err){
+
+    console.error(err);
+    res.status(500).json({ error:"Failed to delete recipe" });
 
   }
 
