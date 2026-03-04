@@ -141,11 +141,10 @@ app.get("/recipes/:ingredient", async (req, res) => {
     }
   }
 
-  res.json([
-    "Simple Salad",
-    "Healthy Bowl",
-    "Custom Recipe Idea"
-  ]);
+res.json([
+  "No food recipes found",
+  "You can create your own custom recipe"
+]);
 
 });
 
@@ -166,6 +165,28 @@ app.delete("/pantry/:id", async (req, res) => {
 
     console.error(err);
     res.status(500).json({ error:"Failed to delete item" });
+
+  }
+
+});
+
+app.post("/recipes/custom", async (req, res) => {
+
+  const { item, recipe } = req.body;
+
+  try {
+
+    await pool.query(
+      "INSERT INTO custom_recipes(item, recipe) VALUES($1,$2)",
+      [item, recipe]
+    );
+
+    res.json({ success:true });
+
+  } catch(err) {
+
+    console.error(err);
+    res.status(500).json({ error:"Failed to save recipe" });
 
   }
 
