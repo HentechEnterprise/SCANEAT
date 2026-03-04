@@ -148,3 +148,25 @@ app.get("/recipes/:ingredient", async (req, res) => {
   ]);
 
 });
+
+app.delete("/pantry/:id", async (req, res) => {
+
+  const id = req.params.id;
+
+  try {
+
+    await pool.query(
+      "DELETE FROM pantry_items WHERE id=$1",
+      [id]
+    );
+
+    res.json({ success:true });
+
+  } catch (err) {
+
+    console.error(err);
+    res.status(500).json({ error:"Failed to delete item" });
+
+  }
+
+});
