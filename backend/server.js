@@ -234,54 +234,66 @@ app.get("/recipes/pantry", async (req,res)=>{
       "SELECT name FROM pantry_items"
     );
 
-      if(items.rows.length === 0){
-          return res.json([]);
-      }
+    // if pantry empty
+    if(items.rows.length === 0){
+      return res.json([]);
+    }
 
+    // normalize names
     const names = items.rows.map(r =>
-  r.name.toLowerCase().replace(/[^a-z ]/g,"")
-);
+      r.name.toLowerCase().replace(/[^a-z ]/g,"")
+    );
 
-       const filtered = names.filter(n =>
-  !n.includes("water") &&
-  !n.includes("soap") &&
-  !n.includes("detergent") &&
-  !n.includes("cleaner")
-);
-
-    let suggestions=[];
+    // remove non-food items
+    const filtered = names.filter(n =>
+      !n.includes("water") &&
+      !n.includes("soap") &&
+      !n.includes("detergent") &&
+      !n.includes("cleaner")
+    );
 
     const has = (ingredient) =>
-  filtered.some(n => n.includes(ingredient));
+      filtered.some(n => n.includes(ingredient));
 
-    if(has("egg"))
+    let suggestions = [];
+
+    // simple recipe rules
+    if(has("egg")){
       suggestions.push("Omelette");
+    }
 
-    if(has("egg") && has("bread"))
+    if(has("egg") && has("bread")){
       suggestions.push("Egg sandwich");
+    }
 
-    if(has("tomato") && has("onion"))
-      suggestions.push("Fresh salsa");
-
-    if(has("chicken"))
-      suggestions.push("Grilled chicken bowl");
-
-    if(has("rice") && has("egg"))
-      suggestions.push("Egg fried rice");
-
-    if(has("milk"))
+    if(has("milk")){
       suggestions.push("Milk pancakes");
-      if(has("egg") && has("milk") && has("bread"))
-  suggestions.push("French toast");
+    }
 
-if(has("rice") && has("chicken"))
-  suggestions.push("Chicken fried rice");
+    if(has("egg") && has("milk") && has("bread")){
+      suggestions.push("French toast");
+    }
 
-if(has("milk") && has("banana"))
-  suggestions.push("Banana smoothie");
+    if(has("rice") && has("egg")){
+      suggestions.push("Egg fried rice");
+    }
 
-    if(suggestions.length===0)
+    if(has("rice") && has("chicken")){
+      suggestions.push("Chicken fried rice");
+    }
+
+    if(has("banana") && has("milk")){
+      suggestions.push("Banana smoothie");
+    }
+
+    if(has("tomato") && has("onion")){
+      suggestions.push("Fresh salsa");
+    }
+
+    // fallback recipe
+    if(suggestions.length === 0){
       suggestions.push("Simple healthy bowl");
+    }
 
     res.json(suggestions);
 
@@ -319,6 +331,7 @@ res.json([
 ]);
 
 });
+
 
 
 
