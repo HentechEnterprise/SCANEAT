@@ -107,7 +107,7 @@ app.delete("/pantry", async (req, res) => {
 
   try {
 
-    await db.query("DELETE FROM pantry_items");
+    await pool.query("DELETE FROM pantry_items");
 
     res.json({
       success: true,
@@ -116,9 +116,10 @@ app.delete("/pantry", async (req, res) => {
 
   } catch (err) {
 
-    console.log(err);
+    console.error(err);
     res.status(500).json({ error: "Failed to clear pantry" });
 
   }
 
 });
+
