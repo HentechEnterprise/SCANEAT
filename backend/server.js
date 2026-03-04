@@ -123,3 +123,28 @@ app.delete("/pantry", async (req, res) => {
 
 });
 
+app.get("/recipes/:ingredient", async (req, res) => {
+
+  const ingredient = req.params.ingredient.toLowerCase();
+
+  const recipes = {
+    "egg": ["Omelette", "Scrambled Eggs", "Egg Fried Rice"],
+    "banana": ["Banana Smoothie", "Banana Pancakes", "Banana Bread"],
+    "milk": ["Milkshake", "Hot Chocolate", "Pancakes"],
+    "water": ["Lemon Water", "Cucumber Detox Water", "Fruit Infused Water"],
+    "bread": ["French Toast", "Sandwich", "Garlic Bread"]
+  };
+
+  for (let key in recipes) {
+    if (ingredient.includes(key)) {
+      return res.json(recipes[key]);
+    }
+  }
+
+  res.json([
+    "Simple Salad",
+    "Healthy Bowl",
+    "Custom Recipe Idea"
+  ]);
+
+});
