@@ -10,7 +10,13 @@ export async function initDb() {
       quantity INTEGER DEFAULT 1,
       created_at TIMESTAMP DEFAULT NOW()
     );
+    CREATE TABLE IF NOT EXISTS custom_recipes (
+  id SERIAL PRIMARY KEY,
+  item TEXT,
+  recipe TEXT
+);
   `);
 
   console.log("Pantry table ready");
+
 }
