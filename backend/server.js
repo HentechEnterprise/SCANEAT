@@ -285,6 +285,12 @@ app.get("/recipes/pantry", async (req,res)=>{
     if(has("rice") && has("chicken")){
       suggestions.push("Chicken fried rice");
     }
+      if(has("turkey") && has("bread")){
+  suggestions.push("Turkey sandwich");
+}
+      if(has("turkey")){
+  suggestions.push("Turkey protein bowl");
+}
 
     if(has("banana") && has("milk")){
       suggestions.push("Banana smoothie");
@@ -335,6 +341,7 @@ res.json([
 ]);
 
 });
+
 
 
 
