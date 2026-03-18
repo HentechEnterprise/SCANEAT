@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pantry Recipes UI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="phone">
+    <header class="topbar">
+      <div class="hello">
+        <div class="small">Welcome back, Aakash!</div>
+        <h1>Recipes based on your pantry</h1>
+      </div>
+
+      <div class="icons">
+        <button class="icon-btn" aria-label="Edit">✏️</button>
+        <button class="icon-btn" aria-label="Meals">🍴</button>
+        <button class="icon-btn" aria-label="Profile">👤</button>
+      </div>
+    </header>
+
+    <section class="recipes">
+      <div class="recipe-card">
+        <img src="assets/recipe1.jpg" alt="Recipe 1" />
+        <div class="recipe-info">
+          <div class="recipe-title">Rice Fritters</div>
+          <div class="recipe-meta">
+            <span>Lunch, Dinner</span>
+            <span>30 mins</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="recipe-card">
+        <img src="assets/recipe2.jpg" alt="Recipe 2" />
+        <div class="recipe-info">
+          <div class="recipe-title">Shredded veg miso soup</div>
+          <div class="recipe-meta">
+            <span>Lunch, Dinner</span>
+            <span>15 mins</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai">
+      <h2>Still looking for more ideas?<br/>Ask our AI chat!</h2>
+
+      <div class="ai-box">
+        <button class="pill">Avocado? Make a vegan mousse!</button>
+        <button class="pill">Try out this veggie fried rice!</button>
+        <button class="pill">Extra onion? Let’s pickle it!</button>
+
+        <div class="chat-input">
+          <input type="text" placeholder="Message EcoChat here" />
+          <button class="send">➤</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="pantry">
+      <h2>Update your pantry here</h2>
+
+      <div class="chips">
+        <span class="chip">Avocado 🥑 <button class="x">×</button></span>
+        <span class="chip">Tomato 🍅 <button class="x">×</button></span>
+        <span class="chip">Rice 🍚 <button class="x">×</button></span>
+        <span class="chip">Onion 🧅 <button class="x">×</button></span>
+
+        <button class="chip add">Add +</button>
+      </div>
+    </section>
+
+    <section class="choices">
+      <h2>Meal Type?</h2>
+
+      <div class="grid2">
+        <button class="tile">
+          <img src="assets/breakfast.jpg" alt="Breakfast" />
+          <span>Breakfast</span>
+        </button>
+
+        <button class="tile">
+          <img src="assets/lunch.jpg" alt="Lunch" />
+          <span>Lunch</span>
+        </button>
+      </div>
+
+      <h2>Preferred Cook Time?</h2>
+
+      <div class="grid2">
+        <button class="tile simple"><span>Under 30 mins</span></button>
+        <button class="tile simple"><span>Under 1 hour</span></button>
+      </div>
+
+      <button class="refresh">Refresh recipes</button>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
