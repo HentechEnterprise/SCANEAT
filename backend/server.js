@@ -100,7 +100,6 @@ initDb().then(()=>{
         console.log("Server running on port",PORT)
     })
 
-
 })
 
 app.delete("/pantry", async (req, res) => {
@@ -157,6 +156,7 @@ app.delete("/pantry/:id", async (req,res)=>{
   }
 
 });
+
 app.post("/recipes/custom", async (req, res) => {
 
   const { item, recipe } = req.body;
@@ -245,16 +245,15 @@ app.get("/recipes/pantry", async (req,res)=>{
     );
 
     // remove non-food items
-    const filtered = names.filter(n =>
-      !n.includes("water") &&
-      !n.includes("soap") &&
-      !n.includes("detergent") &&
-      !n.includes("cleaner")
-    );
+   const filtered = names.filter(n =>
+  !n.includes("soap") &&
+  !n.includes("detergent") &&
+  !n.includes("cleaner")
+);
 
-      if(filtered.length === 0){
-          return res.json([]);
-      }
+    if(filtered.length === 0){
+      return res.json([]);
+    }
 
     const has = (ingredient) =>
       filtered.some(n => n.includes(ingredient));
@@ -285,12 +284,14 @@ app.get("/recipes/pantry", async (req,res)=>{
     if(has("rice") && has("chicken")){
       suggestions.push("Chicken fried rice");
     }
-      if(has("turkey") && has("bread")){
-  suggestions.push("Turkey sandwich");
-}
-      if(has("turkey")){
-  suggestions.push("Turkey protein bowl");
-}
+
+    if(has("turkey") && has("bread")){
+      suggestions.push("Turkey sandwich");
+    }
+
+    if(has("turkey")){
+      suggestions.push("Turkey protein bowl");
+    }
 
     if(has("banana") && has("milk")){
       suggestions.push("Banana smoothie");
@@ -299,6 +300,11 @@ app.get("/recipes/pantry", async (req,res)=>{
     if(has("tomato") && has("onion")){
       suggestions.push("Fresh salsa");
     }
+
+    if(has("water") || has("energy") || has("red bull") || has("monster") || has("bull")){
+  suggestions.push("Hydration smoothie");
+  suggestions.push("Lemon detox water");
+}
 
     // fallback recipe
     if(suggestions.length === 0){
@@ -322,11 +328,11 @@ app.get("/recipes/:ingredient", async (req, res) => {
   const ingredient = req.params.ingredient.toLowerCase();
 
   const recipes = {
-    "egg": ["Omelette", "Scrambled Eggs", "Egg Fried Rice"],
+    "egg":    ["Omelette", "Scrambled Eggs", "Egg Fried Rice"],
     "banana": ["Banana Smoothie", "Banana Pancakes", "Banana Bread"],
-    "milk": ["Milkshake", "Hot Chocolate", "Pancakes"],
-    "water": ["Lemon Water", "Cucumber Detox Water", "Fruit Infused Water"],
-    "bread": ["French Toast", "Sandwich", "Garlic Bread"]
+    "milk":   ["Milkshake", "Hot Chocolate", "Pancakes"],
+    "water":  ["Lemon Water", "Cucumber Detox Water", "Fruit Infused Water"],
+    "bread":  ["French Toast", "Sandwich", "Garlic Bread"]
   };
 
   for (let key in recipes) {
@@ -335,16 +341,22 @@ app.get("/recipes/:ingredient", async (req, res) => {
     }
   }
 
-res.json([
-  "No food recipes found",
-  "You can create your own custom recipe"
-]);
+  res.json([
+    "No food recipes found",
+    "You can create your own custom recipe"
+  ]);
 
 });
 
 
+// ─── KEEP-ALIVE ───────────────────────────────────────────────
+// Pings the server every 10 minutes so Render free tier never sleeps
 
-
-
-
-
+setInterval(async () => {
+  try {
+    await fetch("https://scaneat-nkix.onrender.com");
+    console.log("[keep-alive] ping sent —", new Date().toLocaleTimeString());
+  } catch (e) {
+    console.log("[keep-alive] ping failed:", e.message);
+  }
+}, 5 * 60 * 1000); // 10 minutes
